@@ -182,6 +182,44 @@ DTS、PTS 的概念如下所述：
 
 
 
+#### H264中NALU sps pps IDR帧 
+
+参考：
+
++ [H264简介](https://www.cnblogs.com/vczf/p/13557781.html)
++ [深入浅出理解视频编码H264结构（内涵福利）](https://www.jianshu.com/p/9522c4a7818d)
++ [H.264/H265码流解析](https://www.cnblogs.com/wujianming-110117/p/12722286.html)
+
+什么是NALU？ 
+
+H264码流可以分为两层，VCL层和NAL层，NAL的全称是`Network abstraction layer`,叫⽹络抽象层，它保存了H264相关的参数信息和图像信息，NAL层由多个单元NALU组成,NALU由了NALU头（00 00 00 01或者00 00 01）、sps(序列参数集)、pps(图像参数集合)、slice、sei、IDR帧、I帧（在图像运动变化较少时，I帧后⾯是7个P帧，如果图像运动变化⼤时，⼀个序列就短了，I帧后⾯可能是3个或者4个P帧）、P帧、B帧等数据。sps、pps、I帧、P帧在NALU中的关系和nalu type判断
+
+⼀个完整的NALU单元结构图如下：
+
+![008](https://github.com/winfredzen/VideoAudio/blob/main/images/008.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
