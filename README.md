@@ -200,33 +200,12 @@ H264码流可以分为两层，VCL层和NAL层，NAL的全称是`Network abstrac
 
 
 
+#### H.264四种画质级别
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++ BP-Baseline Profifile：基本画质。⽀持I/P 帧，只⽀持⽆交错（Progressive）和CAVLC； 
++ EP-Extended profifile：进阶画质。⽀持I/P/B/SP/SI 帧，只⽀持⽆交错（Progressive）和CAVLC； 
++ MP-Main profifile：主流画质。提供I/P/B 帧，⽀持⽆交错（Progressive）和交错（Interlaced），也⽀持CAVLC 和CABAC 的⽀持；
++ HP-High profifile：⾼级画质。在main Profifile 的基础上增加了8x8内部预测、⾃定义量化、
 
 
 
