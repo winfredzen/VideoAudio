@@ -20,9 +20,9 @@
 
 @interface H264Decoder : NSObject
 {
-    AVCodec*            pCodec;
+    AVCodec*            pCodec; //解码的库
     AVCodecContext*     pCodecCtx;
-    AVFrame*            pVideoFrame;
+    AVFrame*            pVideoFrame; //解码后的数据
     
     AVPacket            pAvPackage;
     

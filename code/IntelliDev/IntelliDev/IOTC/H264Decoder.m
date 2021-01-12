@@ -28,11 +28,11 @@
         av_register_all();
         avcodec_register_all();
         
-        pCodec=avcodec_find_decoder(CODEC_ID_H264);
+        pCodec=avcodec_find_decoder(CODEC_ID_H264); //找到H264解码器
         if(!pCodec){
             printf("Codec not find\n");
         }
-        pCodecCtx=avcodec_alloc_context3(pCodec);
+        pCodecCtx=avcodec_alloc_context3(pCodec); //上下文
         if(!pCodecCtx){
             printf("allocate codec context error\n");
         }
