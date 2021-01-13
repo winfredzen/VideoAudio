@@ -244,3 +244,9 @@ H264码流可以分为两层，VCL层和NAL层，NAL的全称是`Network abstrac
 
 
 
+## 资源
+
+不错的博客与文章
+
++ [随笔分类 - ffmpeg](https://www.cnblogs.com/leisure_chn/category/1351812.html)
+
