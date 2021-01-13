@@ -22,7 +22,7 @@ typedef struct  H264YUVDef
 {
     unsigned int    width;
     unsigned int    height;
-    H264Frame       luma;
+    H264Frame       luma; //明亮度
     H264Frame       chromaB;
     H264Frame       chromaR;
     

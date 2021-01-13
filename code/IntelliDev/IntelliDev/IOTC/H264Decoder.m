@@ -37,7 +37,7 @@
             printf("allocate codec context error\n");
         }
         
-        avcodec_open2(pCodecCtx, pCodec, NULL);
+        avcodec_open2(pCodecCtx, pCodec, NULL); //打开解码器
         
         pVideoFrame=avcodec_alloc_frame();
         

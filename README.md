@@ -34,6 +34,27 @@
 
 > 为什么还需要`YUV`和`RGB`两种色彩模型呢？因为对于图像显示器来说，它是通过`RGB`模型来显示图像的。而在传输图像数据时是使用`YUV`模型的，因为`YUV`模型可以节省带宽。所以就需要采集图像时将`RGB`模型转换到`YUV`模型，显示时再将`YUV`模型转换为`RGB`模型。
 
+YUV的解释参考维基百科[YUV](https://zh.wikipedia.org/wiki/YUV)
+
+> `YUV`中的`Y`表示的是明亮度（Luminance、Luma），`UV`表示的是色度、浓度（Chrominance、Chroma）
+>
+> `YCbCr`则是用来描述数字的影像信号，适合视频与图片压缩以及传输，例如`MPEG`、`JPEG`
+>
+> 常见YUV有很多规格，例如YUV444，YUV422和YUV420，后面的数字是表示采样的比例。其中YUV420是FFmpeg里最常用的，因为最省资源。
+>
+> - 4:4:4表示完全取样。
+> - 4:2:2表示2:1的水平取样，垂直完全采样。
+> - 4:2:0表示2:1的水平取样，垂直2:1采样
+>
+> 具体解释可参考：
+>
+> + [刻意练习FFmpeg系列：颜色和像素](https://zhuanlan.zhihu.com/p/137836227)
+> + [视频压缩与编解码的基本原理](https://zhuanlan.zhihu.com/p/67305755)
+>
+> ![010](https://github.com/winfredzen/VideoAudio/blob/main/images/010.png)
+
+
+
 
 
 ### 音频相关参数

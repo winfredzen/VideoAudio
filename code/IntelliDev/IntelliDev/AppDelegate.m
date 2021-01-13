@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "CCTabBarController.h"
-
+#import <libavcodec/avcodec.h>
 
 
 //UnixPosix 接口 socket pthread.
@@ -33,6 +33,7 @@
     
     [self.window makeKeyAndVisible];
 
+    NSLog(@"%d", avcodec_version());
 
     return YES;
 }
