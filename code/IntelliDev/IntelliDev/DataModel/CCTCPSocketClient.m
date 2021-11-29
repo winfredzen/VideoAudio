@@ -353,6 +353,7 @@
                             continue;
                         }
                         printf("视频 xxxxxxxxxxxxxxxxxxxxxxxxx% d\n",dataLength);
+                        //解码h.264数据
                         [decoder DecodeH264Frames:(unsigned char*)videoData withLength:dataLength];
                         //[hDecoder DecodeH264Frames:(unsigned char*)videoData withLength:dataLength];
                         

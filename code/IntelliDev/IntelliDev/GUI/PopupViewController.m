@@ -276,7 +276,7 @@
     [self.navigationItem setTitle:videoInfoStr];
     
     //char* serverIP="192.168.1.104";
-    char* serverIP="192.168.43.206";
+    char* serverIP="192.168.188.206";
     char* userName="admin";
     char* password="123456";
     
