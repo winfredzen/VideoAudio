@@ -10,13 +10,13 @@
 
 ## Linux基础知识
 
-pwd - 当前路径
+`pwd` - 当前路径
 
-mkdir - 创建目录
+`mkdir` - 创建目录
 
 `ls -alt` 列出当前所有的目录，`a`表示所有，`l`表示列表，`t`表示倒序
 
-
+![001](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/001.png)
 
 
 
