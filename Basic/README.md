@@ -18,6 +18,102 @@
 
 ![001](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/001.png)
 
+`cp` - 拷贝
+
+`rm` - 删除，`rm -rf`循环删除，`-f`强制删除
+
+
+
+安装工具
+
++ apt - Ubuntu下的安装工具
++ brew - Mac Os
++ yum - Centos
+
+
+
+`brew search vim`搜索vim
+
+`brew install vim`安装vim
+
+
+
+### vim的基本操作
+
+`:w`保存文件
+
+`:q`退出
+
+`:wq`保存并退出
+
+`i` - 进入编辑模式
+
+`esc` - 退出编辑模式
+
+`h、j、k、l` - 移动光标
+
+`vim 1.txt`建立一个新的`1.txt`
+
+
+
+深入了解：
+
++ [Linux vi/vim](https://www.runoob.com/linux/linux-vim.html)
+
+
+
+### Linux环境变量
+
+`PATH`
+
+`PKG_CONFIG_PATH`
+
+`环境变量的变更`
+
+linux环境 - `~/.bashrc`
+
+mac - `~/.bash_profile`
+
+设置好之后，需要执行`source`命令才可以真正的生效
+
+**env命令**用于显示系统中已存在的环境变量
+
+![002](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/002.png)
+
+通过`grep`过滤，`env | grep PATH`
+
+![003](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/003.png)
+
+> PATH使用`:`分隔
+
+
+
+>  一些说明：
+>
+> 现在mac下的shell默认为zsh，不再是bash
+>
+> 通过`echo $SHELL`可查看shell的版本
+>
+> 由`bash`切换到`zsh`后`.bash_profile`里面的环境变量的配置便不生效了，需要在`~/.zshrc`中重新配置
+
+
+
+`vi ~/.zshrc`，本人电脑的配置如下：
+
+![004](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/004.png)
+
+课程视频截图如下：
+
+![005](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/005.png)
+
+> 可以看出，有多个`PATH`的设置，`$PATH`表示原来的`PATH`设置，意思是把原来的`PATH`设置给拼接过来
+
+编辑完后，需要使用`source ~/.zshrc` 命令
+
+
+
+
+
 
 
 
