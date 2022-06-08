@@ -112,8 +112,6 @@ mac - `~/.bash_profile`
 
 
 
-
-
 ## Mac或Linux下编译安装ffmpeg
 
 ![007](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/007.png)
@@ -136,17 +134,27 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
 
 
 
+### 编译
 
+1.`./configure --prefix=./ffmpeg --enable-debug=3`
 
+可通过`./configure --help`来查看，支持的那些参数
 
+可通过搜索来过滤
 
+![008](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/008.png)
 
+2.这里使用`./configure --prefix=$PWD/output --enable-debug=3 --enable-shared --disable-static`
 
+启用动态库，禁用静态库
 
+3.`make -j 4`
 
+4.`make install`
 
+编译后的输出结构如下：
 
-
+![009](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/009.png)
 
 
 
