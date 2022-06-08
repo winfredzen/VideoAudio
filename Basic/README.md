@@ -156,6 +156,10 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
 
 ![009](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/009.png)
 
+![010](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/010.png)
+
+5.设置PATH，我brew安装，就省略了
+
 
 
 
