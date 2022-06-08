@@ -12,7 +12,7 @@
 
 `pwd` - 当前路径
 
-`mkdir` - 创建目录
+`mkdir` - 创建目录, `mkdir -p 1/2/3`创建多层目录
 
 `ls -alt` 列出当前所有的目录，`a`表示所有，`l`表示列表，`t`表示倒序
 
@@ -114,11 +114,25 @@ mac - `~/.bash_profile`
 
 
 
+## Mac或Linux下编译安装ffmpeg
 
+![007](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/007.png)
 
+1.`brew`方式
 
+`brew search ffmpeg`搜索ffmpeg
 
+![006](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/006.png)
 
+`brew install ffmpeg`安装
+
+2.源码的方式
+
+在[官网](https://ffmpeg.org/download.html)，通过git下载
+
+```shell
+git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+```
 
 
 
