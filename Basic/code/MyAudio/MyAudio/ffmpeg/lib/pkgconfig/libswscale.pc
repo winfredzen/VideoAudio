@@ -1,0 +1,14 @@
+prefix=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output
+exec_prefix=${prefix}
+libdir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/lib
+includedir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 6.6.100
+Requires: 
+Requires.private: libavutil >= 57.26.100
+Conflicts:
+Libs: -L${libdir}  -lswscale 
+Libs.private: -lm
+Cflags: -I${includedir}

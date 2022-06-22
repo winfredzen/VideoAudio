@@ -1,0 +1,14 @@
+prefix=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output
+exec_prefix=${prefix}
+libdir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/lib
+includedir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 8.40.100
+Requires: 
+Requires.private: libswscale >= 6.6.100, libavformat >= 59.24.100, libavcodec >= 59.33.100, libswresample >= 4.6.100, libavutil >= 57.26.100
+Conflicts:
+Libs: -L${libdir}  -lavfilter 
+Libs.private: -framework OpenGL -framework OpenGL -pthread -lm -framework Metal -framework VideoToolbox -framework CoreImage -framework AppKit -framework CoreFoundation -framework CoreMedia -framework CoreVideo -framework CoreServices
+Cflags: -I${includedir}

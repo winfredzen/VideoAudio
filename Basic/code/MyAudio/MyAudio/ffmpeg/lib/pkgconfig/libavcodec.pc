@@ -1,0 +1,14 @@
+prefix=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output
+exec_prefix=${prefix}
+libdir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/lib
+includedir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 59.33.100
+Requires: 
+Requires.private: libswresample >= 4.6.100, libavutil >= 57.26.100
+Conflicts:
+Libs: -L${libdir}  -lavcodec 
+Libs.private: -liconv -lm -llzma -framework AudioToolbox -pthread -lz -framework VideoToolbox -framework CoreFoundation -framework CoreMedia -framework CoreVideo -framework CoreServices
+Cflags: -I${includedir}
