@@ -10,7 +10,15 @@
 
 #include <stdio.h>
 #include "libavutil/avutil.h"
+#include "libavdevice/avdevice.h"
+#include "libavformat/avformat.h"
+#include "libavcodec/avcodec.h"
+#include <unistd.h>
 
-void haha(void);
+//录制音频
+void record_audio(void);
+
+//设置录制状态，用于停止录制
+void set_status(int status);
 
 #endif /* testc_h */
