@@ -8,6 +8,13 @@
 
 
 
+## FFmpeg
+
++ [https://ffmpeg.org/](https://ffmpeg.org/)
++ [https://trac.ffmpeg.org/](https://trac.ffmpeg.org/)
+
+
+
 ## Linux基础知识
 
 `pwd` - 当前路径
