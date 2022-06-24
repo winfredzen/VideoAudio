@@ -1,0 +1,14 @@
+prefix=/Users/wangzhen/Movies/code/output
+exec_prefix=${prefix}
+libdir=/Users/wangzhen/Movies/code/output/lib
+includedir=/Users/wangzhen/Movies/code/output/include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 57.26.100
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavutil 
+Libs.private: -pthread -lm -framework VideoToolbox -L/usr/local/Cellar/libx11/1.7.2/lib -lX11 -framework CoreFoundation -framework CoreMedia -framework CoreVideo -framework CoreServices
+Cflags: -I${includedir}

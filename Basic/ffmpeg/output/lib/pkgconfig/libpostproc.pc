@@ -1,0 +1,14 @@
+prefix=/Users/wangzhen/Movies/code/output
+exec_prefix=${prefix}
+libdir=/Users/wangzhen/Movies/code/output/lib
+includedir=/Users/wangzhen/Movies/code/output/include
+
+Name: libpostproc
+Description: FFmpeg postprocessing library
+Version: 56.5.100
+Requires: 
+Requires.private: libavutil >= 57.26.100
+Conflicts:
+Libs: -L${libdir}  -lpostproc 
+Libs.private: -lm
+Cflags: -I${includedir}
