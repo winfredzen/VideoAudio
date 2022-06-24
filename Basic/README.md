@@ -15,6 +15,14 @@
 
 
 
+## 资源
+
++ [秒懂音视频开发](https://www.cnblogs.com/mjios/category/1938094.html)
+
+
+
+
+
 ## Linux基础知识
 
 `pwd` - 当前路径
