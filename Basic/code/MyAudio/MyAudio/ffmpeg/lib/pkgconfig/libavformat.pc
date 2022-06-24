@@ -1,7 +1,7 @@
-prefix=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output
+prefix=/Users/wangzhen/Movies/code/output
 exec_prefix=${prefix}
-libdir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/lib
-includedir=/Users/wangzhen/Documents/GitHub/VideoAudio/Basic/ffmpeg/ffmpeg/output/include
+libdir=/Users/wangzhen/Movies/code/output/lib
+includedir=/Users/wangzhen/Movies/code/output/include
 
 Name: libavformat
 Description: FFmpeg container format library
