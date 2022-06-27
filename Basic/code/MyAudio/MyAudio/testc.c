@@ -10,6 +10,49 @@
 //录制状态
 static int rec_status = 0;
 
+/**
+ 编码
+ */
+void encode(AVCodecContext *codec_ctx, AVFrame *frame, AVPacket *pkt, FILE *output) {
+    //将数据送入编码器
+    int ret = 0;
+    ret = avcodec_send_frame(codec_ctx, frame);
+    while (ret >= 0) {//数据设置成功
+        //获取编码后的数据，如果成功，需要重复获取，直到失败为止
+        ret = avcodec_receive_packet(codec_ctx, pkt);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            return;
+        } else if (ret < 0) {
+            printf("Error, encoding audio frame!!!\n");
+            exit(-1);
+        }
+
+        //写入文件
+        //fwrite(pkt.data, pkt.size, 1, file);//pcm
+        //fwrite(dst_data[0], 1, dst_linesize, file);//重采样
+        fwrite(pkt->data, 1, pkt->size, output);//AAC
+        fflush(output);
+    }
+}
+
+AVCodecContext* open_codec() {
+    //avcodec_find_encoder(AV_CODEC_ID_AAC);
+    AVCodec *codec = avcodec_find_encoder_by_name("libfdk_aac");
+    //创建上下文
+    AVCodecContext *codec_ctx = avcodec_alloc_context3(codec);
+    codec_ctx->sample_fmt = AV_SAMPLE_FMT_S16;//位深 （AAC的采样大小就是16位）
+    codec_ctx->channel_layout = AV_CH_LAYOUT_STEREO;//channel
+    codec_ctx->channels = 2;
+    codec_ctx->sample_rate = 44100;//采样率
+    codec_ctx->bit_rate = 0;//AAC_LC:128K AAC_HE:64k AAC_HE_V2: 32K
+    codec_ctx->profile = FF_PROFILE_AAC_HE;
+    //打开编码器
+    if (avcodec_open2(codec_ctx, codec, NULL) < 0) {
+        printf("avcodec_open2(codec_ctx, codec, NULL) < 0");
+    }
+    return codec_ctx;
+}
+
 SwrContext* init_swr() {
     //重采样 - 这里输入使用mac外接耳机的麦克风
     SwrContext *swr_ctx = NULL;
@@ -64,7 +107,8 @@ void record_audio() {
     }
     
     //创建文件
-    char *out = "/Users/wangzhen/Downloads/audio.pcm";
+    //char *out = "/Users/wangzhen/Downloads/audio.pcm";
+    char *out = "/Users/wangzhen/Downloads/audio.aac";
     FILE *file = fopen(out, "wb+");
     if (file == NULL) {
         printf("file == NUL");
@@ -75,6 +119,30 @@ void record_audio() {
     av_init_packet(&pkt);
     int count = 0;
     ret = 0;
+    
+    //打开编码器上下文
+    AVCodecContext *codec_ctx = open_codec();
+    
+    //音频输入数据
+    AVFrame *frame = av_frame_alloc();
+    if (!frame) {
+        printf("frame == NUL");
+    }
+    frame->nb_samples = 512;//单通道的一个音频帧采样数
+    frame->format = AV_SAMPLE_FMT_S16; //每个采样大小
+    frame->channel_layout = AV_CH_LAYOUT_STEREO;//通道
+    av_frame_get_buffer(frame, 0);
+    if (!frame->data[0]) {
+        printf("frame->buf[0] == NUL");
+    }
+    
+    //音频输出数据
+    AVPacket *newpkt = av_packet_alloc();//分配编码后的数据空间
+    if (!newpkt) {
+        printf("newpkt == NUL");
+    }
+    
+    
 
     //重采样初始化 - 这里输入使用mac外接耳机的麦克风
     SwrContext *swr_ctx = init_swr();
@@ -127,13 +195,18 @@ void record_audio() {
                     (const uint8_t **)src_data,//输入缓冲区
                     512);
         
-        //写入文件
-        //fwrite(pkt.data, pkt.size, 1, file);
-        fwrite(dst_data[0], 1, dst_linesize, file);
-        fflush(file);
+        //重采样后的数据放入AVFrame中
+        memcpy((void *)frame->data[0], dst_data[0], dst_linesize);
+        
+        //编码
+        encode(codec_ctx, frame, newpkt, file);
+        
 
         av_packet_unref(&pkt);
     }
+    
+    //编码，强制将编码器中缓冲的数据进行编码输出
+    encode(codec_ctx, NULL, newpkt, file);
     
     //关闭文件
     fclose(file);
@@ -150,6 +223,10 @@ void record_audio() {
     //释放重采样上下文
     swr_free(&swr_ctx);
     
+    //释放avframe avpackt
+    av_frame_free(&frame);
+    av_packet_free(&newpkt);
+    
     //释放上下文
     avformat_close_input(&fmt_ctx);
     
@@ -157,6 +234,8 @@ void record_audio() {
     av_log(NULL, AV_LOG_DEBUG, "Finish!!!\n");
     return;
 }
+
+
 
 void set_status(int status) {
     rec_status = status;
