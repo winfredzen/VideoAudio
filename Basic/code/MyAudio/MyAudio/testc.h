@@ -14,6 +14,7 @@
 #include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
 #include <unistd.h>
+#include "libswresample/swresample.h" //重采样
 
 //录制音频
 void record_audio(void);
