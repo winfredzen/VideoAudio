@@ -13,7 +13,7 @@
 + [https://ffmpeg.org/](https://ffmpeg.org/)
 + [https://trac.ffmpeg.org/](https://trac.ffmpeg.org/)
 
-
++ [http://www.ffmpeg.org/doxygen/trunk/examples.html](http://www.ffmpeg.org/doxygen/trunk/examples.html) - FFmpeg例子
 
 ## 资源
 
