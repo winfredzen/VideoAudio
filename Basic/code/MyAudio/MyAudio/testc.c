@@ -93,7 +93,7 @@ void record_audio() {
     //创建输出缓冲区
     uint8_t **dst_data = NULL;
     int dst_linesize = 0;
-    //2048/2/2 = 512 采集的大小（pkt.size）/位深（浮点数4个字节）/通道数
+    //2048/2/2 = 512 采集的大小（pkt.size）/位深（浮点数2个字节）/通道数
     av_samples_alloc_array_and_samples(&dst_data, //输出缓冲区地址
                                        &dst_linesize,//缓冲区的大小
                                        2,//通道个数
