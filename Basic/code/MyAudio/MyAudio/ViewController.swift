@@ -50,7 +50,7 @@ class ViewController: NSViewController {
     
     @objc func start() {
         print("start thread")
-        record_audio();
+        record_video();
     }
 
 

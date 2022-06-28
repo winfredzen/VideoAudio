@@ -16,8 +16,8 @@
 #include <unistd.h>
 #include "libswresample/swresample.h" //重采样
 
-//录制音频
-void record_audio(void);
+//录制视频
+void record_video(void);
 
 //设置录制状态，用于停止录制
 void set_status(int status);
