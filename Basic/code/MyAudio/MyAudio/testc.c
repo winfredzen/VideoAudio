@@ -32,7 +32,7 @@ static AVFormatContext* open_dev() {
     enum AVPixelFormat av_fmt = AV_PIX_FMT_NV12;
     av_dict_set(&options, "video_size", "640x480", 0);//分辨率
     av_dict_set(&options, "framerate", "30", 0);//帧率
-    //av_dict_set(&options,"pixel_format","nv12", 0);//采样格式
+    av_dict_set(&options,"pixel_format","nv12", 0);//采样格式 nv12=yuv420sp
     
     
     //打开输入设备
@@ -90,7 +90,8 @@ void record_video() {
         printf("pkt size %d(%p)\n", pkt.size, pkt.data); //pkt size 2048(0x1048d3a00) 0
 
         //写文件
-        fwrite(pkt.data, 1, pkt.size, file);
+        //fwrite(pkt.data, 1, pkt.size, file);
+        fwrite(pkt.data, 1, 460800, file);
         fflush(file);
         
         av_packet_unref(&pkt);
