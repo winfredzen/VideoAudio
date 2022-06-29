@@ -20,6 +20,10 @@
 + [秒懂音视频开发](https://www.cnblogs.com/mjios/category/1938094.html)
 + [test-videos](https://test-videos.co.uk/)
 
++ [audio_video_streaming](https://github.com/0voice/audio_video_streaming)
+
++ [零基础入门：实时音视频技术基础知识全面盘点](http://www.52im.net/thread-3079-1-1.html)
+
 
 
 ## Linux基础知识
