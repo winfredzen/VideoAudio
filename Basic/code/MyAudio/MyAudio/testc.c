@@ -10,6 +10,59 @@
 //录制状态
 static int rec_status = 0;
 
+//打开编码器
+static void open_encoder(int width, int height, AVCodecContext **enc_ctx) {
+    int ret = 0;
+    AVCodec *codec = NULL;
+    codec = avcodec_find_encoder_by_name("libx264");
+    if (!codec) {
+        printf("Codec libx264 not found!!!\n");
+        exit(1);
+    }
+    //创建上下文
+    *enc_ctx = avcodec_alloc_context3(codec);
+    if (!enc_ctx) {
+        printf("enc_ctx === NULL !!!\n");
+        exit(1);
+    }
+    
+    //参数设置
+    (*enc_ctx)->profile = FF_PROFILE_H264_HIGH;
+    (*enc_ctx)->level = 50;//表示level是5.0，支持720p
+    
+    //设置分辨率
+    (*enc_ctx)->width = width;//640
+    (*enc_ctx)->height = height;//480 设置分辨率
+    
+    //GOP
+    (*enc_ctx)->gop_size = 250;
+    (*enc_ctx)->keyint_min = 25;//minimum GOP size
+    
+    //B帧
+    (*enc_ctx)->max_b_frames = 3;
+    (*enc_ctx)->has_b_frames = 1;
+    
+    //参考帧的数量
+    (*enc_ctx)->refs = 3;
+    
+    //设置要编码数据的像素格式（设置输入）
+    (*enc_ctx)->pix_fmt = AV_PIX_FMT_YUV420P;
+    
+    //设置码流
+    (*enc_ctx)->bit_rate = 600000; //600kbps
+    
+    //设置帧率
+    (*enc_ctx)->time_base = (AVRational){1, 25};//帧与帧间的间隔就是time_base
+    (*enc_ctx)->framerate = (AVRational){25, 1};//帧率，每秒25帧
+    
+    //打开
+    ret = avcodec_open2((*enc_ctx), codec, NULL);
+    if (ret < 0) {
+        printf("avcodec_open2 failded %s!!!\n", av_err2str(ret));
+        exit(1);
+    }
+}
+
 //打开设备
 static AVFormatContext* open_dev() {
     int ret = 0;
@@ -53,6 +106,8 @@ void record_video() {
     int ret = 0;
     //读数据
     AVPacket pkt;
+    //编码上下文
+    AVCodecContext *enc_ctx = NULL;
 
     av_log_set_level(AV_LOG_DEBUG);
     av_log(NULL, AV_LOG_DEBUG, "Hello FFmpeg!!!\n");
@@ -73,6 +128,9 @@ void record_video() {
         printf("fmt_ctx == NULL\n");
         goto __ERROR;
     }
+    
+    //打开编码器
+    open_encoder(640, 480, &enc_ctx);
     
     //实时录制
     while (rec_status) {
