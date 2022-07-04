@@ -38,6 +38,44 @@ RTMP（Real Time Messaging Protocol） 是由 Adobe 公司基于 Flash Player �
 
 
 
+## FLV协议
+
+![109](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/109.png)
+
+> FLV文件=FLV头文件+ tag1+tag内容1 + tag2+tag内容2 + ...+... + tagN+tag内容N
+
+###  
+
+## 推流
+
+![110](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/110.png)
+
+![111](https://github.com/winfredzen/VideoAudio/blob/main/Basic/image/111.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
