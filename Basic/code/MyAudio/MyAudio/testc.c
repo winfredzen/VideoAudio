@@ -10,6 +10,9 @@
 //录制状态
 static int rec_status = 0;
 
+#define V_WIDTH 640
+#define V_HEIGHT 480
+
 //打开编码器
 static void open_encoder(int width, int height, AVCodecContext **enc_ctx) {
     int ret = 0;
@@ -49,7 +52,7 @@ static void open_encoder(int width, int height, AVCodecContext **enc_ctx) {
     (*enc_ctx)->pix_fmt = AV_PIX_FMT_YUV420P;
     
     //设置码流
-    (*enc_ctx)->bit_rate = 600000; //600kbps
+    (*enc_ctx)->bit_rate = 1000000; //600kbps
     
     //设置帧率
     (*enc_ctx)->time_base = (AVRational){1, 25};//帧与帧间的间隔就是time_base
@@ -98,17 +101,88 @@ static AVFormatContext* open_dev() {
     return fmt_ctx;
 }
 
+//创建AVFrame
+static AVFrame * create_frame(int width, int height) {
+    int ret = 0;
+    AVFrame *frame = NULL;
+    frame = av_frame_alloc();
+    if (!frame) {
+        printf("Error, No Memory!\n");
+        goto __ERROR;
+    }
+    frame->width = width;
+    frame->height = height;
+    frame->format = AV_PIX_FMT_YUV420P;
+    
+    //alloc inner memory
+    ret = av_frame_get_buffer(frame, 32);//按32位对齐
+    if (ret < 0) {
+        printf("Error, Failed to alloc buffer for frame!\n");
+        goto __ERROR;
+    }
+    return frame;
+    
+__ERROR:
+    if (frame) {
+        av_frame_free(&frame);
+    }
+    return NULL;
+}
+
+static void encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *packet, FILE *file) {
+    if (!enc_ctx) {
+        printf("enc_ctx == NULL\n");
+        return;
+    }
+    if (!frame) {
+        printf("frame == NULL\n");
+        return;
+    }
+    if (!packet) {
+        printf("packet == NULL\n");
+        return;
+    }
+    if (frame) {
+        printf("send frame to encoder, pts = %lld\n", frame->pts);
+    }
+    
+    //从编码器获取编码好的数据
+    int ret = 0;
+    ret = avcodec_send_frame(enc_ctx, frame);
+    if (ret < 0) {
+        printf("Error, Failded to send a frame for encoding! \n");
+        exit(1);
+    }
+    
+    while (ret >= 0) {
+        //如果编码器数据不足时，会返回EAGAIN，或者，到数据结尾时会返回AVERROR_EOF
+        ret = avcodec_receive_packet(enc_ctx, packet);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            return;
+        } else if (ret < 0) {
+            printf("Error, encoding video frame!!!\n");
+            exit(-1);
+        }
+        //写入文件
+        fwrite(packet->data, 1, packet->size, file);
+        fflush(file);
+        
+        av_packet_unref(packet);
+    }
+    
+}
 
 void record_video() {
     printf("This is c function\n");
     
     AVFormatContext *fmt_ctx = NULL;
     int ret = 0;
+    int base = 0;
     //读数据
     AVPacket pkt;
     //编码上下文
     AVCodecContext *enc_ctx = NULL;
-
+    
     av_log_set_level(AV_LOG_DEBUG);
     av_log(NULL, AV_LOG_DEBUG, "Hello FFmpeg!!!\n");
     
@@ -116,7 +190,9 @@ void record_video() {
     
     //创建文件
     char *out = "/Users/wangzhen/Downloads/video.yuv";
+    char *h264 = "/Users/wangzhen/Downloads/video.h264";
     FILE *file = fopen(out, "wb+");
+    FILE *h264_file = fopen(h264, "wb+");
     if (!file) {
         printf("file == NUL");
         goto __ERROR;
@@ -130,7 +206,17 @@ void record_video() {
     }
     
     //打开编码器
-    open_encoder(640, 480, &enc_ctx);
+    open_encoder(V_WIDTH, V_HEIGHT, &enc_ctx);
+    
+    //创建AVFrame
+    AVFrame *frame = create_frame(V_WIDTH, V_HEIGHT);
+    
+    //AVPacket
+    AVPacket *newpkt = av_packet_alloc();//分配编码后的数据空间
+    if (!newpkt) {
+        printf("newpkt == NUL");
+    }
+    
     
     //实时录制
     while (rec_status) {
@@ -140,23 +226,50 @@ void record_video() {
             av_packet_unref(&pkt);
             continue;
         }
-
+        
         if(ret < 0){
             av_packet_unref(&pkt);
             break;
         }
         printf("pkt size %d(%p)\n", pkt.size, pkt.data); //pkt size 2048(0x1048d3a00) 0
-
+        
+        
         //写文件
         //fwrite(pkt.data, 1, pkt.size, file);
-        fwrite(pkt.data, 1, 460800, file);
-        fflush(file);
+        //fwrite(pkt.data, 1, 460800, file);
+        //fflush(file);
+        
+        //NV12转YUV420P
+        
+        //读取的格式为 NV12
+        //YYYYYYYYY UVUV
+        
+        //转为YUV420P
+        //YYYYYYYYY UUVV
+        memcpy(frame->data[0], pkt.data, 307200);//Y数据 640x480 = 307200
+        //307200之后就是UV数据
+        for (int i = 0; i < 307200 / 4; i++) {
+            frame->data[1][i] = pkt.data[307200 + i * 2];
+            frame->data[2][i] = pkt.data[307200 + i * 2 + 1];
+        }
+        //        fwrite(frame->data[0], 1, 307200, file);
+        //        fwrite(frame->data[1], 1, 307200/4, file);
+        //        fwrite(frame->data[2], 1, 307200/4, file);
+        //        fflush(file);
+        
+        //H264编码
+        frame->pts = base++;
+        encode(enc_ctx, frame, newpkt, h264_file);
+        
         
         av_packet_unref(&pkt);
     }
     
+    //H264编码 - 输出缓存区数据
+    encode(enc_ctx, NULL, newpkt, h264_file);
+    
 __ERROR:
-
+    
     //关闭设备释放上下文
     if (fmt_ctx) {
         avformat_close_input(&fmt_ctx);
@@ -167,7 +280,7 @@ __ERROR:
         fclose(file);
     }
     
-
+    
     av_log(NULL, AV_LOG_DEBUG, "Finish!!!\n");
     return;
 }
