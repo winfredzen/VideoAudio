@@ -233,7 +233,8 @@ static void send_data(FILE *fp, RTMP *rtmp){
     unsigned int pre_ts = 0;
     unsigned int us = 0;
     
-    while(1){
+    rec_status = 1;
+    while(rec_status){
         //2.从flv文件中读取数据
         if(read_data(fp, &packet)){
             printf("over!\n");
